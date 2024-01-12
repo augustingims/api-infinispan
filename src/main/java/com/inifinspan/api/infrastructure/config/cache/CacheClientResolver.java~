@@ -1,0 +1,6 @@
+package com.inifinspan.api.infrastructure.config.cache;
+
+/**
+ * @author TECHAP KEMADJEU Augustin Marius <externe.augustin.kemadjeu@allianz.fr>
+ */
+public class CacheClientResolver {}
