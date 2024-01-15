@@ -1,34 +1,18 @@
 package com.inifinspan.api.application.service;
 
-import com.inifinspan.api.infrastructure.config.cache.CacheClientResolver;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import com.inifinspan.api.domain.PdmModel;
+import com.inifinspan.api.domain.PdmModelDto;
 
 /**
  * @author TECHAP KEMADJEU Augustin Marius <externe.augustin.kemadjeu@allianz.fr>
  */
-@Service
-@RequiredArgsConstructor
-@Slf4j
-public class CacheService {
+public interface CacheService {
 
-  private final CacheClientResolver cacheClientResolver;
+  void addToCache(String childSystem, PdmModelDto pdmModel);
 
-  public void addToCache(String childSystem, String childKey,Object value) {
-    cacheClientResolver.get(childSystem).put(childKey, value);
-  }
+  PdmModel getFromCache(String childSystem, String childId);
 
-  public Object getFromCache(String childSystem,String childKey) {
-    return cacheClientResolver.get(childSystem).get(childKey);
-  }
+  void updateCache(String childSystem, String childId, PdmModelDto pdmModel);
 
-  public void updateCache(String childSystem,String childKey, Object value) {
-    cacheClientResolver.get(childSystem).replace(childKey, value);
-  }
-
-  public void removeFromCache(String childSystem,String childKey) {
-    cacheClientResolver.get(childSystem).remove(childKey);
-  }
-
+  void removeFromCache(String childSystem, String childId);
 }

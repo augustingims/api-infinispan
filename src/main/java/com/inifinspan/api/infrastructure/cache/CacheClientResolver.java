@@ -1,9 +1,9 @@
-package com.inifinspan.api.infrastructure.config.cache;
+package com.inifinspan.api.infrastructure.cache;
 
+import com.inifinspan.api.domain.PdmModel;
 import lombok.RequiredArgsConstructor;
 import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,21 +15,17 @@ public class CacheClientResolver {
 
   private final RemoteCacheManager remoteCacheManager;
 
-  @Value("${infinispan.cache.fca-party}")
-  public String pdmFcaCache;
+  private final CacheProperties cacheProperties;
 
-  @Value("${infinispan.cache.fcpfa-party}")
-  public String pdmFcpfaCache;
-
-  public RemoteCache<String, Object> get(String childSystem){
+  public RemoteCache<String, PdmModel> get(String childSystem){
     return resolve(childSystem);
   }
 
-  private RemoteCache<String, Object> resolve(String childSystem){
+  private RemoteCache<String, PdmModel> resolve(String childSystem){
     if("RC".equals(childSystem)){
-      return remoteCacheManager.getCache(pdmFcaCache);
+      return remoteCacheManager.getCache(cacheProperties.getFcaCacheParty());
     } else if("M4".equals(childSystem)){
-      return remoteCacheManager.getCache(pdmFcpfaCache);
+      return remoteCacheManager.getCache(cacheProperties.getFcpfaCacheParty());
     } else {
       throw new IllegalStateException("Invalid cache");
     }
